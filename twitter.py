@@ -1,15 +1,30 @@
-import urllib.request
-import twurl
-import json
+import essential
+import urllib.error
+import pprint
+import time
+TWITTER_USER_FOLLOWERS = 'https://api.twitter.com/1.1/friends/ids.json'
+TWITTER_USER_DATA = 'https://api.twitter.com/1.1/users/show.json'
 
-TWITTER_URL = 'https://api.twitter.com/1.1/friends/ids.json'
 
 while True:
-    acct = input('Enter Twitter Account: ')
-    if len(acct) < 1: break
-    url = twurl.augment(TWITTER_URL, {'screen_name': acct, 'count': '100'})
-    print('Retrieving', url)
-    connection = urllib.request.urlopen(url)
-    data = connection.read()
-    js = json.loads(data)
-    print(json.dumps(js, indent=4))
+    ACCT = input('Enter Twitter Account username: ')
+    if len(ACCT) < 1:
+        break
+    try:
+        friends_data = essential.get_user_friends(TWITTER_USER_FOLLOWERS, ACCT)
+    except urllib.error.HTTPError:
+        print('There is no user with this username')
+        continue
+
+    FRIENDS_NUMBER = int(input('Enter number of friends to display: '))
+    if int(FRIENDS_NUMBER) > len(friends_data):
+        FRIENDS_NUMBER = len(friends_data)
+
+    friends_dict = {}
+    for i in range(FRIENDS_NUMBER):
+        data = essential.get_friend_data(TWITTER_USER_DATA, ACCT, friends_data[i])
+        friends_dict.setdefault(data[0],{})
+        friends_dict[data[0]].setdefault('location',data[1])
+        friends_dict[data[0]].setdefault('image', data[-1])
+        time.sleep(1.5)
+    pprint.pprint(friends_dict)
