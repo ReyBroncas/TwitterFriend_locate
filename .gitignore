@@ -2,4 +2,3 @@ venv/*
 .idea/*
 __pycache__/*
 hidden.py
-temp.html
