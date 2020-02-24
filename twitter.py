@@ -21,8 +21,11 @@ def get_users_data(username, user_num):
         friends_data = get_twitter_json(TWITTER_USER_FOLLOWERS,
                                         {'screen_name': username,
                                          'count': '3141592653'})['ids']
-        user_num = int(user_num)
     except urllib.error.HTTPError or ValueError:
+        return users_data
+    if isinstance(user_num, str) and len(user_num) >= 1:
+        user_num = int(user_num)
+    else:
         return users_data
     if int(user_num) > len(friends_data):
         user_num = len(friends_data)
