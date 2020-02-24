@@ -16,3 +16,5 @@ $ pip install flask
 ```
 
 ### Run Examples
+![Result:](https://github.com/ReyBroncas/TwitterFriend_locate/blob/master/res/example_1.png)
+![Result:](https://github.com/ReyBroncas/TwitterFriend_locate/blob/master/res/example_2.png)
