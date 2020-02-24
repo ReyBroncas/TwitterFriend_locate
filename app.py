@@ -17,7 +17,7 @@ def index():
         if users_data:
             htmls = location.generate_map(users_data)
             context = {"html": htmls}
-            return render_template('friendsmap.html', **context)
+            return render_template('map.html', **context)
         else:
             return render_template('index.html')
     else:
